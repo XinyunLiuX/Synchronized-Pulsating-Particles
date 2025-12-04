@@ -1,0 +1,22 @@
+function [ax, ay, Uij] = LennardJones(x0, x1, y0, y1, p)
+    rc = p.rc;
+    L = p.L;
+
+    dx = x0 - x1;     dx = dx - L*round(dx/L);
+    dy = y0 - y1;     dy = dy - L*round(dy/L);
+
+    r2 = dx^2 + dy^2;
+    r2 = r2/(1 + p.epsilon*sin(2*pi*p.omega*p.t))^2;
+
+    if r2 > rc^2
+        ax = 0; 
+        ay = 0;
+        Uij = 0;
+        return
+    end
+    r_2 = 1/r2;
+    ax = (r_2^7 - 0.5*r_2^4)*dx;
+    ay = (r_2^7 - 0.5*r_2^4)*dy;
+    Uij = 1/12*(r_2^6 - r_2^3);
+
+end
