@@ -19,6 +19,7 @@ batch_epsilon = 0:0.05:0.2;
 numsimulations = size(batch_omega(:),1);
 
 parfor i = 1:numsimulations
+
 %% Geometry Parameters
 N = 15^2;            % number of particles
 rho = 2;           % density of particles rho = N/L^2, number of particles per area
@@ -39,7 +40,7 @@ lc = L/nc;                  % length of the cell
 h = min(0.001, 1/(2*pi*omega)/50); 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 50000;
+M = 1000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});
