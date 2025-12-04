@@ -17,8 +17,8 @@ function [ax, ay, Uij] = LennardJones(x0, x1, y0, y1, p)
         Uij = 0;
         return
     end
-    ax = e2*(-1)*(r2^(-7) - 0.5*r2^(-4))*dx;
-    ay = e2*(-1)*(r2^(-7) - 0.5*r2^(-4))*dy;
+    ax = e2^(-1)*(r2^(-7) - 0.5*r2^(-4))*dx;
+    ay = e2^(-1)*(r2^(-7) - 0.5*r2^(-4))*dy;
     Uij = 1/12*(r2^(-6) - r2^(-3));
 
 end
