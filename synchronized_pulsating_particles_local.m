@@ -15,7 +15,7 @@ batch_omega = 1;
 batch_epsilon = 0;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
-+
+
 numsimulations = size(batch_omega(:),1);
 
 for i = 1:numsimulations

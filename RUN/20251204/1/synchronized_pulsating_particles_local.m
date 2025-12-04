@@ -10,6 +10,7 @@
 clc; clear all; close all;
 folder = "RES";
 mkdir(folder)
+addpath("../../../")
 
 batch_omega = 1;
 batch_epsilon = 0;
@@ -23,7 +24,7 @@ for i = 1:numsimulations
 %% Geometry Parameters
 N = 2;             % number of particles
 rho = 2;           % density of particles rho = N/L^2, number of particles per area
-L = 10;           % domain width
+L = 20;           % domain width
 l0 = sqrt(1/rho);    % approximate distance between two particles
 
 % Driving and Damping Parameters
@@ -40,7 +41,7 @@ lc = L/nc;                  % length of the cell
 h = min(0.001, 1/(2*pi*omega)/50); 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 1000;
+M = 5000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});
@@ -58,8 +59,8 @@ E = zeros(floor(M/numStepPerSave) + 1, 1);
 %% Initial Condition j = 0
 % The positions are initially taken, in general, at the Nodes of the square lattice which has the desire density
 p.t = 0; 
-x0 = [-2^(1/6); 2^(1/6)]/2; 
-y0 = [0; 0]; 
+x0 = [-2^(1/6); 2^(1/6)]/2 + L/2 + 1E-3*randn(N,1); 
+y0 = [0; 0] + L/2; 
 u0 = 0E-3*randn(size(x0));
 v0 = 0E-3*randn(size(x0));
 
@@ -123,12 +124,12 @@ end
 %% Build CellList Func
 function [cellList, particlesPerCell] = buildCellList(x, y, p)
     ix = floor(x/p.lc) + 1;
-    iy = floor((p.L - y)/p.lc) + 1;
+    iy = floor(y/p.lc) + 1; iy = p.nc - iy + 1;
     cellList = cell(p.nc,p.nc);         % creat cell structure 
     particlesPerCell = zeros(p.nc,p.nc);  
     for n = 1:p.N
-        cellList{ix(n), iy(n)}(end+1) = n;
-        particlesPerCell(ix(n), iy(n)) = particlesPerCell(ix(n), iy(n)) + 1;
+        cellList{iy(n), ix(n)}(end+1) = n;
+        particlesPerCell(iy(n), ix(n)) = particlesPerCell(iy(n), ix(n)) + 1;  % note the position exchange of ix iy
     end
 end
 

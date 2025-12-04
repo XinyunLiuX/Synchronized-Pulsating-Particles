@@ -10,6 +10,7 @@
 clc; clear all; close all;
 folder = "RES";
 mkdir(folder)
+addpath("../../../")
 
 batch_omega = 1:1:20;
 batch_epsilon = 0:0.05:0.2;
@@ -126,12 +127,12 @@ end
 %% Build CellList Func
 function [cellList, particlesPerCell] = buildCellList(x, y, p)
     ix = floor(x/p.lc) + 1;
-    iy = floor((p.L - y)/p.lc) + 1;
+    iy = floor(y/p.lc) + 1; iy = p.nc - iy + 1;
     cellList = cell(p.nc,p.nc);         % creat cell structure 
     particlesPerCell = zeros(p.nc,p.nc);  
     for n = 1:p.N
-        cellList{ix(n), iy(n)}(end+1) = n;
-        particlesPerCell(ix(n), iy(n)) = particlesPerCell(ix(n), iy(n)) + 1;
+        cellList{iy(n), ix(n)}(end+1) = n;
+        particlesPerCell(iy(n), ix(n)) = particlesPerCell(iy(n), ix(n)) + 1;  % note the position exchange of ix iy
     end
 end
 
