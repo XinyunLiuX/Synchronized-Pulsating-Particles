@@ -41,7 +41,7 @@ lc = L/nc;                  % length of the cell
 h = min(0.001, 1/(2*pi*omega)/50); 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 1000;
+M = 10000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});

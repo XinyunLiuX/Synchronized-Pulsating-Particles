@@ -12,8 +12,8 @@ folder = "RES";
 mkdir(folder)
 addpath("../../../")
 
-batch_omega = 1;
-batch_epsilon = 0;
+batch_omega = 0.1;
+batch_epsilon = 0.1;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
 
@@ -41,7 +41,7 @@ lc = L/nc;                  % length of the cell
 h = min(0.001, 1/(2*pi*omega)/50); 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 50000;
+M = 500000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});
@@ -59,7 +59,7 @@ E = zeros(floor(M/numStepPerSave) + 1, 1);
 %% Initial Condition j = 0
 % The positions are initially taken, in general, at the Nodes of the square lattice which has the desire density
 p.t = 0; 
-x0 = [-2^(1/6); 2^(1/6)]/2 + L/2 + 1E-3*randn(N,1); 
+x0 = [-2^(1/6); 2^(1/6)]/2 + L/2 + 0E-4*randn(N,1); 
 y0 = [0; 0] + L/2; 
 u0 = 0E-3*randn(size(x0));
 v0 = 0E-3*randn(size(x0));

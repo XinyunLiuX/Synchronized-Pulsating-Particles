@@ -27,7 +27,7 @@ L = sqrt(N/rho);     % domain width
 l0 = sqrt(1/rho);    % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 0.1;          % damping coefficient
+beta = 0.5;          % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 

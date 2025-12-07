@@ -12,8 +12,8 @@ folder = "RES";
 mkdir(folder)
 addpath("../../../")
 
-batch_omega = 1;
-batch_epsilon = 0;
+batch_omega = 1.5431*10;
+batch_epsilon = 0.01;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
 
@@ -28,7 +28,7 @@ L = 20;           % domain width
 l0 = sqrt(1/rho);    % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 10;          % damping coefficient
+beta = 0.;          % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 
@@ -59,7 +59,7 @@ E = zeros(floor(M/numStepPerSave) + 1, 1);
 %% Initial Condition j = 0
 % The positions are initially taken, in general, at the Nodes of the square lattice which has the desire density
 p.t = 0; 
-x0 = [-2^(1/6); 2^(1/6)]/2 + L/2 + 1E-3*randn(N,1); 
+x0 = [-2^(1/6); 2^(1/6)]/2 + L/2 + 1E-4*randn(N,1); 
 y0 = [0; 0] + L/2; 
 u0 = 0E-3*randn(size(x0));
 v0 = 0E-3*randn(size(x0));
