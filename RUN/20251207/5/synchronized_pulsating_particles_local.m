@@ -12,8 +12,8 @@ folder = "RES";
 mkdir(folder)
 addpath("../../../")
 
-batch_omega = 1.5431*2;
-batch_epsilon = 0.1;
+batch_omega = 2.3*2;%2.1823*2;
+batch_epsilon = 0.06;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
 
@@ -22,18 +22,18 @@ numsimulations = size(batch_omega(:),1);
 for i = 1:numsimulations
 
 %% Geometry Parameters
-N = 2;             % number of particles
-rho = 2;           % density of particles rho = N/L^2, number of particles per area
-L = 20;           % domain width
+N = 20;              % number of particles
+rho = 2;             % density of particles rho = N/L^2, number of particles per area
+L = N*2^(1/6);       % domain width
 l0 = sqrt(1/rho);    % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 0.7;          % damping coefficient
+beta = 1.1;            % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 
 % Celllist  Structures
-rc = 3.3;                   % cut off distance of Lennard Jones potential
+rc = 1.5;                   % cut off distance of Lennard Jones potential
 nc = floor(L/rc);           % number of cells in x or y direction
 lc = L/nc;                  % length of the cell
 
@@ -41,7 +41,7 @@ lc = L/nc;                  % length of the cell
 h = min(0.001, 1/(2*pi*omega)/50); 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 500000;
+M = 1000000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});
@@ -59,8 +59,9 @@ E = zeros(floor(M/numStepPerSave) + 1, 1);
 %% Initial Condition j = 0
 % The positions are initially taken, in general, at the Nodes of the square lattice which has the desire density
 p.t = 0; 
-x0 = [-2^(1/6); 2^(1/6)]/2 + L/2 + 1E-4*randn(N,1); 
-y0 = [0; 0] + L/2; 
+perturbation = 1E-3*ones(N,1);  perturbation(2:2:end) = -perturbation(2:2:end);
+x0 =  (0:N-1).'*2^(1/6) + 2^(1/6)/2 + perturbation; 
+y0 = zeros(N,1) + L/2; 
 u0 = 0E-3*randn(size(x0));
 v0 = 0E-3*randn(size(x0));
 

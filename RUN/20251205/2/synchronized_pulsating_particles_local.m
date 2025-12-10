@@ -13,7 +13,7 @@ mkdir(folder)
 addpath("../../../")
 
 batch_omega = 0.1;
-batch_epsilon = 0.1;
+batch_epsilon = 0.01;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
 
