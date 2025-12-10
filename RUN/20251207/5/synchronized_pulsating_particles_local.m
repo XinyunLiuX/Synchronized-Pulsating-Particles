@@ -12,8 +12,8 @@ folder = "RES";
 mkdir(folder)
 addpath("../../../")
 
-batch_omega = 2.3*2;%2.1823*2;
-batch_epsilon = 0.06;
+batch_omega = 2.1823*2;
+batch_epsilon = 0.07;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
 
@@ -28,7 +28,7 @@ L = N*2^(1/6);       % domain width
 l0 = sqrt(1/rho);    % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 1.1;            % damping coefficient
+beta = 1.0;            % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 
@@ -38,17 +38,17 @@ nc = floor(L/rc);           % number of cells in x or y direction
 lc = L/nc;                  % length of the cell
 
 % Time resolution
-h = min(0.001, 1/(2*pi*omega)/50); 
+h = min(0.001, 1/(2*pi*omega)/50)/50; 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 1000000;
+M = 10000000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});
 
 
 % Result Container
-numStepPerSave = 10;
+numStepPerSave = 500;
 T = zeros(floor(M/numStepPerSave) + 1, 1);
 X = zeros(floor(M/numStepPerSave) + 1, N);
 Y = zeros(floor(M/numStepPerSave) + 1, N);
@@ -77,7 +77,7 @@ x1 = x0 + u0*h + 0.5*ax0*h2;
 y1 = y0 + v0*h + 0.5*ay0*h2; 
 
 % First Data Saving
-T(1) = p.t;
+T(1) = 0;
 X(1,:) = x0_w.';
 Y(1,:) = y0_w.';
 U(1) = U0;

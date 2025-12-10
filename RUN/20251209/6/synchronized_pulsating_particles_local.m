@@ -38,10 +38,10 @@ nc = floor(L/rc);           % number of cells in x or y direction
 lc = L/nc;                  % length of the cell
 
 % Time resolution
-h = min(0.001, 1/(2*pi*omega)/50)/20; 
+h = min(0.001, 1/(2*pi*omega)/50)/50; 
 h2 = h^2;
 betah_2 = beta*h/2;
-M = 100000;
+M = 500000;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'h', {h}, 'M', {M});

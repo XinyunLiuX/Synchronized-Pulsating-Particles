@@ -1,7 +1,7 @@
 % clc; clear all
 % synchronized_pulsating_particles_local
 
-t = 1;
+% t = 1;
 % scatter(X(t,:), Y(t,:), '.')
 % axis([0,L,L/2-0.1,L/2+0.1])
 subplot 511
@@ -14,6 +14,8 @@ subplot 514
 plot(T, X(:,4))
 subplot 515
 plot(T, X(:,5))
+
+
 
 %%
 
@@ -50,5 +52,5 @@ plot(T, X(:,5))
         end
     end
 
-    
+
 
