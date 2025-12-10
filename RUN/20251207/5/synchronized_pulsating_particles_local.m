@@ -28,7 +28,7 @@ L = N*2^(1/6);       % domain width
 l0 = sqrt(1/rho);    % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 1.0;            % damping coefficient
+beta = 1.2;            % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 
@@ -38,7 +38,7 @@ nc = floor(L/rc);           % number of cells in x or y direction
 lc = L/nc;                  % length of the cell
 
 % Time resolution
-h = min(0.001, 1/(2*pi*omega)/50)/50; 
+h = min(0.001, 1/(2*pi*omega)/50)/10; 
 h2 = h^2;
 betah_2 = beta*h/2;
 M = 10000000;
