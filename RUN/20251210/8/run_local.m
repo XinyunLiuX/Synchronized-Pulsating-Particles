@@ -29,7 +29,7 @@ L = 2^(1/6)*N;       % domain width
 l0 = 2^(1/6);        % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 1.4;           % damping coefficient
+beta = 1.;           % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 
@@ -39,7 +39,7 @@ nc = floor(L/rc);           % number of cells in x or y direction
 lc = L/nc;                  % length of the cell
 
 % Time resolution
-tspan = 0:0.1:3000;
+tspan = 0:0.1:300;
 
 % Parameter Container p
 p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho});
