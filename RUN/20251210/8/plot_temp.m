@@ -1,14 +1,8 @@
 % clc; clear all
-% synchronized_pulsating_particles_local
-
-% t = 1;
-% scatter(X(t,:), Y(t,:), '.')
-% axis([0,L,L/2-0.1,L/2+0.1])
 
 % addpath('RES')
-% filename = 'res_N=20_rho=2.00_beta=1.4_epsilon=0.07_omega=4.80';
+% filename = 'res_N=20_rho=2.00_beta=1.4_epsilon=0.07_omega=4.60';
 % load([filename, '.mat'])
-% %%
 % subplot 511
 % plot(T, x(:,1))
 % subplot 512
@@ -22,6 +16,7 @@
 % 
 % figure
 
+%%
 clc; clear all;
 folder = 'RES/';
 files = dir([folder, '*.mat']);
@@ -30,6 +25,7 @@ Omega = zeros(numFile,1);
 Epsilon = zeros(numFile,1);
 Mean = zeros(numFile,1);
 Std = zeros(numFile,1);
+Angular_Freq = zeros(numFile,1);
 
 for i = 1:numFile
 
@@ -39,20 +35,62 @@ for i = 1:numFile
     Omega(i) = p.omega;
     Epsilon(i) = p.epsilon;
 
-    [up, lo] = envelope(x(:,1), 10, 'peak');
-    secondPart = up-lo;
-    secondPart = secondPart(floor(length(secondPart)/2):end);
-    Mean(i) = mean(secondPart);
-    Std(i) = std(secondPart);
+    xpost = x(floor(p.M/2):end,1);
+
+    [up, lo] = envelope(xpost, 10, 'peak');
+    env = up - lo;
+    Mean(i) = mean(env);
+    Std(i) = std(env);
+    
+    Angular_Freq(i) = 2*pi*dominantFrequence(xpost - mean(xpost), p.dt);
 
 end
+
+exportfineName = sprintf('res_N=%d_rho=%.2f_beta=%.2f_epsilon=%.2f', p.N, p.rho, p.beta, p.epsilon);
+
 figure
 scatter(Omega, Mean, 20, 'k', 'filled');
-savefig([folder fileName(1:end-15), '_mean.fig'])
+savefig([folder exportfineName, '_mean.fig'])
 
 figure
 scatter(Omega, Std, 20, 'k', 'filled');
-savefig([folder fileName(1:end-15), '_std.fig'])
+savefig([folder exportfineName, '_std.fig'])
+
+figure
+scatter(Omega, Angular_Freq, 20, 'k', 'filled');
+savefig([folder exportfineName, '_freq.fig'])
+
+
+function f_dominant = dominantFrequence(xpost, dt)
+
+Fs = 1/dt;               % Sampling Frequency (Hz)
+L = length(xpost);       % Length of the signal
+
+% --- 3. Compute the FFT ---
+% Use a power of 2 for NFFT for faster computation, though optional
+NFFT = 2^nextpow2(L);
+X = fft(xpost, NFFT);
+
+% --- 4. Generate the Single-Sided Spectrum P1 ---
+% Compute the two-sided spectrum P2
+P2 = abs(X/L);
+
+% Take the single-sided spectrum P1
+% Only need the first half (up to the Nyquist frequency)
+P1 = P2(1:NFFT/2+1);
+P1(2:end-1) = 2*P1(2:end-1); % Multiply by 2 (except DC and Nyquist components)
+
+% --- 5. Create the Frequency Vector f ---
+f = Fs*(0:(NFFT/2))/NFFT;
+
+% --- 6. Find the Dominant Frequency ---
+% Find the index 'I' corresponding to the maximum magnitude in P1
+[~, I] = max(P1);
+
+% The frequency at that index is the dominant frequency
+f_dominant = f(I);
+
+end
 
 
 % %%

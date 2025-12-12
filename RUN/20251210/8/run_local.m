@@ -13,7 +13,7 @@ folder = "RES";
 mkdir(folder)
 addpath("../../../")
 
-batch_omega = 2.4*2;
+batch_omega = 2.6*2;
 batch_epsilon = 0.07;
 
 [batch_omega, batch_epsilon] = meshgrid(batch_omega, batch_epsilon);
@@ -29,7 +29,7 @@ L = 2^(1/6)*N;       % domain width
 l0 = 2^(1/6);        % approximate distance between two particles
 
 % Driving and Damping Parameters
-beta = 1.;           % damping coefficient
+beta = 1.4;           % damping coefficient
 omega   = batch_omega(i);           % forcing frequency
 epsilon = batch_epsilon(i);         % forcing strength
 
@@ -39,15 +39,16 @@ nc = floor(L/rc);           % number of cells in x or y direction
 lc = L/nc;                  % length of the cell
 
 % Time resolution
-tspan = 0:0.1:300;
+dt = 0.1;
+tspan = 0:dt:3000;
+M = length(tspan);
 
 % Parameter Container p
-p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho});
+p = struct('beta', {beta}, 'epsilon', {epsilon}, 'omega', {omega}, 'N', {N}, 'M', {M}, 'L', {L}, 'rc', {rc}, 'nc', {nc}, 'lc', {lc}, 'rho', {rho}, 'dt', {dt});
 
 %% Initial Condition 
 
 % The positions are initially taken, in general, at the Nodes of the square lattice which has the desire density
-p.t = 0; 
 perb = 1E-5*ones(N,1); perb(1:2:end) = -perb(1:2:end);
 x0 =  (0:N-1).'*2^(1/6) + 2^(1/6)/2 + perb; 
 y0 = zeros(N,1) + L/2; 

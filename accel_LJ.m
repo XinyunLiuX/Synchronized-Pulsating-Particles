@@ -1,4 +1,4 @@
-function [AX, AY, U] = accel_LJ(x, y, cellList, numParCell, p)
+function [AX, AY, U] = accel_LJ(t, x, y, cellList, numParCell, p)
 % Sync Pulsating Particles.pptx
 % Calculate Acceleration based on current position x and y
 % Domain is divided by ncxnc cells for acceleration
@@ -29,7 +29,7 @@ for i = 1:nc
             c1 = i; c2 = j;
             for l = k+1:n0                  % loop over interacting particles in the same cell that are futher down the list
                id1 = cellList{c1,c2}(l);        % for interacting particle id1
-               [ax, ay, Uij] = LennardJones(x(id0), x(id1), y(id0), y(id1), p);     
+               [ax, ay, Uij] = LennardJones(t, x(id0), x(id1), y(id0), y(id1), p);     
                AX(id0) = AX(id0) + ax; 
                AY(id0) = AY(id0) + ay;
                % Newton's third law
@@ -72,7 +72,7 @@ for i = 1:nc
                n1 = numParCell(c1,c2);          % number of particles in that neighboring cell
                for l = 1:n1                         % loop over all particles in that neighboring cell
                    id1 = cellList{c1,c2}(l);            % for interacting particle id1
-                   [ax, ay, Uij] = LennardJones(x(id0), x(id1), y(id0), y(id1), p);     
+                   [ax, ay, Uij] = LennardJones(t, x(id0), x(id1), y(id0), y(id1), p);     
                    AX(id0) = AX(id0) + ax; 
                    AY(id0) = AY(id0) + ay;
                    % Newton's third law

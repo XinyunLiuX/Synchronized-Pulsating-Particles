@@ -1,11 +1,11 @@
-function [ax, ay, Uij] = LennardJones(x0, x1, y0, y1, p)
+function [ax, ay, Uij] = LennardJones(t, x0, x1, y0, y1, p)
     rc = p.rc;
     L = p.L;
 
     dx = x0 - x1;     dx = dx - L*round(dx/L);
     dy = y0 - y1;     dy = dy - L*round(dy/L);
 
-    e = 1 + p.epsilon*sin(p.omega*p.t);
+    e = 1 + p.epsilon*sin(p.omega*t);
     e2 = e^2;
 
     r2 = dx^2 + dy^2;

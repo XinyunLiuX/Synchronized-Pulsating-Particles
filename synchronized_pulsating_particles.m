@@ -1,5 +1,4 @@
 function dXdt = synchronized_pulsating_particles(t, X ,p)
-    p.t = t;
     N = p.N;
     
     dXdt = zeros(4*N,1);
@@ -12,7 +11,7 @@ function dXdt = synchronized_pulsating_particles(t, X ,p)
     % CellList for Interaction 
     x_w = mod(x, p.L); y_w = mod(y, p.L);
     [cellList, particlesPerCell] = buildCellList(x_w, y_w, p);
-    [ax, ay, ~] = accel_LJ(x_w, y_w, cellList, particlesPerCell, p);      % acceleration of Lennard-Jones part
+    [ax, ay, ~] = accel_LJ(t, x_w, y_w, cellList, particlesPerCell, p);      % acceleration of Lennard-Jones part
     
     dXdt(1:N) = u;
     dXdt(N+1:2*N) = v;
