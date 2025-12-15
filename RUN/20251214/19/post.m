@@ -40,6 +40,9 @@ savefig([folder exportfineName, '_std.fig'])
 
 figure
 scatter(Omega, Angular_Freq, 20, 'k', 'filled');
+hold on
+plot(Omega, Omega/2, 'r--');
+holf off
 savefig([folder exportfineName, '_freq.fig'])
 
 
