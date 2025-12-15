@@ -54,6 +54,9 @@ savefig([folder exportfineName, '_mean.fig'])
 
 figure
 scatter(Omega, Std, 20, 'k', 'filled');
+hold on
+plot(Omega, Omega/2, 'r--');
+hold off
 savefig([folder exportfineName, '_std.fig'])
 
 figure
