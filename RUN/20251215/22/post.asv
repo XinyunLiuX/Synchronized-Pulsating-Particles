@@ -33,12 +33,11 @@ exportfineName = sprintf('res_N=%d_rho=%.2f_beta=%.2f_epsilon=%.2f', p.N, p.rho,
 figure
 scatter(Omega, Mean, 20, 'k', 'filled');
 savefig([folder exportfineName, '_mean.fig'])
-exportgraphics(gcf, [folder exportfineName, '_mean.png'])
+ex([folder exportfineName, '_mean.png'])
 
 figure
 scatter(Omega, Std, 20, 'k', 'filled');
 savefig([folder exportfineName, '_std.fig'])
-exportgraphics(gcf, [folder exportfineName, '_std.png'])
 
 figure
 scatter(Omega, Angular_Freq, 20, 'k', 'filled');
@@ -46,10 +45,9 @@ hold on
 plot(Omega, Omega/2, 'r--');
 hold off
 savefig([folder exportfineName, '_freq.fig'])
-exportgraphics(gcf, [folder exportfineName, '_freq.png'])
 
 %%
-parfor i = 1:numFile
+for i = 1:numFile
 
     fileName = files(i).name;
     output = load([folder, fileName]);
@@ -67,7 +65,7 @@ parfor i = 1:numFile
     plot(T, phi4, T, phi6, 'LineWidth', 1.5);
     legend('phi4', 'phi6')
     savefig([folder fileName(1:end-4), '_bond_order.fig'])
-    exportgraphics(gcf, [folder fileName(1:end-4), '_bond_order.png'])
+    saveas([folder fileName(1:end-4), '_bond_order.png'])
 end
 
 
