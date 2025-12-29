@@ -41,7 +41,7 @@ lc = L/nc;                  % length of the cell
 
 % Time resolution
 dt = 0.1;
-tspan = 0:dt:600;
+tspan = 0:dt:1200;
 M = length(tspan);
 
 % Parameter Container p
