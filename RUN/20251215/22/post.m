@@ -49,7 +49,7 @@ savefig([folder exportfineName, '_freq.fig'])
 exportgraphics(gcf, [folder exportfineName, '_freq.png'])
 
 %%
-parfor i = 1:numFile
+for i = 1:numFile
 
     fileName = files(i).name;
     output = load([folder, fileName]);
