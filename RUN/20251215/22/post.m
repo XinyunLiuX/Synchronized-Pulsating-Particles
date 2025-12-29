@@ -1,5 +1,5 @@
 clc; clear all;
-
+addpath("../../../")
 folder = 'RES/';
 files = dir([folder, '*.mat']);
 numFile = length(files);
